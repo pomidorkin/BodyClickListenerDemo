@@ -16,9 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 public class SampleBody extends Actor {
     private World world;
     private Body body;
+    private Vector2 coords;
 
-    public SampleBody(World world) {
+    public SampleBody(World world, Vector2 coords) {
         this.world = world;
+        this.coords = coords;
 
         this.setSize(2f, 2f);
 
@@ -30,7 +32,7 @@ public class SampleBody extends Actor {
         this.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Body touched"); // Call a function
+                System.out.println("Body touched " + this); // Call a function
             }
         });
     }
@@ -39,9 +41,9 @@ public class SampleBody extends Actor {
 
         Body box;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = false;
-        bodyDef.position.set(2f, 1f);
+        bodyDef.position.set(coords.x, coords.y);
 
         box = world.createBody(bodyDef);
         PolygonShape ps = new PolygonShape();
@@ -71,5 +73,10 @@ public class SampleBody extends Actor {
 //        this.setPosition(body.getPosition().x-this.getWidth()/2,body.getPosition().y-this.getHeight()/2);
         this.setPosition(body.getPosition().x-this.getWidth()/2,body.getPosition().y-this.getHeight()/2);
 
+    }
+
+
+    public Body getBody() {
+        return body;
     }
 }
